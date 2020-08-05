@@ -1,21 +1,32 @@
 import React from 'react';
 
 class App extends React.Component {
-
   constructor(props) {
     super(props);
     this.state = {
       name: "", email: ""
     }
   }
-
   checkValue(event) {
     const name = event.target.name;
     const svalue = event.target.value;
     this.setState({ [name]: svalue })
   }
-  showData = ()=>{
+  showData = () => {
     console.log(this.state);
+  }
+
+  componentDidUpdate() {
+    fetch("http://localhost:3001/postData", {
+      method: 'POST', // or 'PUT'
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then(data => data.json())
+      .then(result => {
+        this.setState({ [name]: result })
+      })
   }
 
   render() {
@@ -39,7 +50,7 @@ class App extends React.Component {
               type="button"
               Value="Submit"
               name="email"
-              onClick={()=> this.showData()}
+              onClick={() => this.showData()}
             /></p>
           </form>
         </div>
