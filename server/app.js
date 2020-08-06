@@ -3,12 +3,16 @@ const app = express();
 const cors = require("cors");
 const bodyParser = require("body-parser")
 const {details} = require("./schema")
+const allReacord = details.find({})
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors());
 
 app.get("/", (req, res, next) => {
-    res.send({ name: "anurag" })
+    allReacord.exec((err,data)=>{
+        if(err) throw err;
+        res.send(data)
+    })
 })
 
 app.post("/postData", (req, res, next) => {
@@ -19,7 +23,6 @@ app.post("/postData", (req, res, next) => {
     })
     serverData.save((err,data)=>{
         if(err) throw err;
-        console.log(data)
         res.redirect(data)
     })
 })
