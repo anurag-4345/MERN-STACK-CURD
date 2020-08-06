@@ -12,20 +12,21 @@ class App extends React.Component {
     const svalue = event.target.value;
     this.setState({ [name]: svalue })
   }
-  showData = () => {
-    console.log(this.state);
-  }
 
-  componentDidUpdate() {
+  showData = () => {
     fetch("http://localhost:3001/postData", {
-      method: 'POST', // or 'PUT'
+      method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
+      body: `name=${this.state.name}&email=${this.state.email}`
     })
       .then(data => data.json())
       .then(result => {
-        this.setState({ [name]: result })
+        this.setState({
+          name: result.name,
+          email: result.email,
+        })
       })
   }
 
